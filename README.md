@@ -177,3 +177,126 @@ tiếp theo, tạo admin user: ```python manage.py createsuperuser```
 
 xong bước 2.
 
+## Bước 3: ĐĂNG KÝ MODEL VÀO DJANGO ADMIN
+
+sửa admin.py: ```sudo nano django_app/app/pawn/admin.py```
+
+```
+from django.contrib import admin
+
+# Register your models here.
+from .models import *
+
+admin.site.register(KhachHang)
+admin.site.register(TaiSanCam)
+admin.site.register(HopDongCam)
+admin.site.register(ThanhToan)
+```
+
+lưu lại.
+
+Ý nghĩa:
+
+Đăng ký model để:
+- thêm
+- sửa
+- xoá
+
+trên Django Admin.
+
+tiếp theo, ĐỔI Dockerfile VỀ RUNSERVER: ``` sudo nano django_app/Dockerfile```
+
+sửa dòng cuối thành ```CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]```
+
+lưu lại.
+
+build lại project: ```docker-compose up -d --build```
+
+truy cập http://192.168.56.10:8000/ để kiểm tra
+<img width="1918" height="1078" alt="Screenshot 2026-05-09 162344" src="https://github.com/user-attachments/assets/c1b6ea1f-21fb-4480-99a9-c161c85b9b6d" />
+
+trang admin: 
+<img width="1915" height="1075" alt="Screenshot 2026-05-09 162453" src="https://github.com/user-attachments/assets/35cca16e-d99d-4235-b745-8e6a9392c32f" />
+<img width="1918" height="933" alt="Screenshot 2026-05-09 162717" src="https://github.com/user-attachments/assets/cd7c8dd5-4538-476b-b5af-6459acef755b" />
+
+test chức nang admin:
+
+thêm khách hàng: 
+<img width="1918" height="876" alt="Screenshot 2026-05-09 162912" src="https://github.com/user-attachments/assets/cf1e1b29-1427-4a77-bbf7-94954ba11c65" />
+
+sửa thông tin:
+<img width="1507" height="795" alt="Screenshot 2026-05-09 163131" src="https://github.com/user-attachments/assets/cdbc9250-5853-447b-a723-cb427812f22c" />
+<img width="1523" height="541" alt="Screenshot 2026-05-09 163137" src="https://github.com/user-attachments/assets/fbf7e2bb-6373-462f-bef4-7ab37ad138be" />
+
+xóa khách hàng:
+<img width="1467" height="535" alt="Screenshot 2026-05-09 163227" src="https://github.com/user-attachments/assets/6a27dc4f-e458-484d-bdb7-a1c25084764f" />
+<img width="1662" height="785" alt="Screenshot 2026-05-09 163241" src="https://github.com/user-attachments/assets/ba5e90b8-ce96-4a9b-aa7b-6f1eb6ebf437" />
+
+test admin xong.
+
+tiếp theo đến phần sử dụng template (file html, sử dụng cú pháp jinja2), lấy context từ 1 view home_page, để tạo trang liệt kê các con nợ đến hạn mà chưa trả tiền.
+
+vào folder app: ```cd ~/pawnshop/django_app/app```
+
+tạo folder: ```mkdir templates```
+tạo file html: ```sudo nano templates/home.html```
+
+code file:
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danh sách con nợ</title>
+</head>
+<body>
+
+    <h1>Danh sách con nợ đến hạn chưa trả</h1>
+
+    <table border="1" cellpadding="10">
+
+        <tr>
+            <th>Khách hàng</th>
+            <th>Tài sản</th>
+            <th>Số tiền vay</th>
+            <th>Ngày hết hạn</th>
+        </tr>
+
+        {% for hopdong in danh_sach_no %}
+
+        <tr>
+            <td>{{ hopdong.khach_hang.ho_ten }}</td>
+            <td>{{ hopdong.tai_san.ten_tai_san }}</td>
+            <td>{{ hopdong.so_tien_vay }}</td>
+            <td>{{ hopdong.ngay_het_han }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>
+```
+<img width="1918" height="1078" alt="Screenshot 2026-05-09 163810" src="https://github.com/user-attachments/assets/e348322e-1f95-4ed0-b8c6-3db3d8db20e7" />
+
+
+sửa settings.py: ```sudo nano config/settings.py```
+
+tìm ```'DIRS': [],``` sửa thành ```'DIRS': [BASE_DIR / 'templates'],1```
+<img width="1085" height="137" alt="Screenshot 2026-05-09 164109" src="https://github.com/user-attachments/assets/5f81a8d8-feac-4640-981b-6253d800e57d" />
+
+tạo views: ```sudo nano pawn/views.py```
+<img width="1337" height="652" alt="Screenshot 2026-05-09 164239" src="https://github.com/user-attachments/assets/ae41847c-bde0-43f1-b9a7-03467df6603c" />
+
+url app: ```sudo nano pawn/urls.py```
+<img width="1125" height="522" alt="Screenshot 2026-05-09 164429" src="https://github.com/user-attachments/assets/99b70b64-362f-4c30-bc47-617fb08287dd" />
+
+url project: ```sudo nano config/urls.py```
+<img width="1013" height="693" alt="Screenshot 2026-05-09 164651" src="https://github.com/user-attachments/assets/aae3f17f-c082-4c5f-8cbe-d496ba2ca897" />
+
+nhớ lưu toàn bộ lại. sau đó restart lại django: ```docker-compose restart django```
+
+test: 
+
+<img width="1918" height="793" alt="Screenshot 2026-05-09 173202" src="https://github.com/user-attachments/assets/368c7c6f-09aa-4f4a-a619-17b8339e8b5f" />
+
