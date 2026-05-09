@@ -73,5 +73,107 @@ lưu file lại.
 test config:
 <img width="872" height="128" alt="Screenshot 2026-05-09 153512" src="https://github.com/user-attachments/assets/e02258af-d0c6-4892-a599-7488192e2f94" />
 
+xong cấu hình Django.
 
+tiếp theo đến phần tạo model
+
+chạy lệnh ``` sudo nano django_app/app/pawn/models.py``` để vào file model.py
+
+```
+from django.db import models
+
+
+class KhachHang(models.Model):
+
+    ho_ten = models.CharField(max_length=100)
+
+    cccd = models.CharField(max_length=20)
+
+    sdt = models.CharField(max_length=15)
+
+    dia_chi = models.TextField()
+
+    def __str__(self):
+        return self.ho_ten
+
+
+class TaiSanCam(models.Model):
+
+    ten_tai_san = models.CharField(max_length=100)
+
+    mo_ta = models.TextField()
+
+    gia_tri_uoc_tinh = models.FloatField()
+
+    tinh_trang = models.CharField(max_length=100)
+
+    khach_hang = models.ForeignKey(
+        KhachHang,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.ten_tai_san
+
+
+class HopDongCam(models.Model):
+
+    khach_hang = models.ForeignKey(
+        KhachHang,
+        on_delete=models.CASCADE
+    )
+
+    tai_san = models.ForeignKey(
+        TaiSanCam,
+        on_delete=models.CASCADE
+    )
+
+    ngay_cam = models.DateField()
+
+    ngay_het_han = models.DateField()
+
+    so_tien_cam = models.FloatField()
+
+    lai_suat = models.FloatField()
+
+    trang_thai = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"HopDong {self.id}"
+
+
+class ThanhToan(models.Model):
+
+    hop_dong = models.ForeignKey(
+        HopDongCam,
+        on_delete=models.CASCADE
+    )
+
+    ngay_thanh_toan = models.DateField()
+
+    so_tien = models.FloatField()
+
+    def __str__(self):
+        return f"ThanhToan {self.id}"
+```
+
+Vào container: ```docker-compose exec django bash```
+
+Tạo migration: ```python manage.py makemigrations```
+
+<img width="897" height="195" alt="Screenshot 2026-05-09 154100" src="https://github.com/user-attachments/assets/99dfd38f-1079-4af6-9ad1-f16e2c4fe9f8" />
+
+apply migration: ```python manage.py migrate```
+
+<img width="1095" height="566" alt="Screenshot 2026-05-09 154354" src="https://github.com/user-attachments/assets/9837d50f-e969-4f5d-ba0e-b031e80aefd6" />
+
+mục tiêu: để Django tự tạo bảng trong MariaDB.
+
+tiếp theo, tạo admin user: ```python manage.py createsuperuser```
+
+điền các thông tin yêu cầu vào, sau dó nhấn enter.
+
+<img width="995" height="232" alt="Screenshot 2026-05-09 154543" src="https://github.com/user-attachments/assets/19afbc24-e11a-46e5-9890-f44a2ba3febe" />
+
+xong bước 2.
 
