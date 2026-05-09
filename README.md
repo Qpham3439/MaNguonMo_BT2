@@ -300,3 +300,9 @@ test:
 
 <img width="1918" height="793" alt="Screenshot 2026-05-09 173202" src="https://github.com/user-attachments/assets/368c7c6f-09aa-4f4a-a619-17b8339e8b5f" />
 
+đã xong.
+
+đến phần cloudflare tunnel để public kết quả lên 1 sub-domain
+
+tải cloudflared về ( đã hướng dẫn )
+
