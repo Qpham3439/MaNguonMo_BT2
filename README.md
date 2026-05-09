@@ -304,5 +304,21 @@ test:
 
 đến phần cloudflare tunnel để public kết quả lên 1 sub-domain
 
-tải cloudflared về ( đã hướng dẫn )
+tải cloudflared về ( đã hướng dẫn trong bt1)
 
+sau khi tải xong, login cloudflare: ```cloudflared tunnel login```
+
+ở đây em đã login r nên nó hiện như này
+<img width="1496" height="227" alt="Screenshot 2026-05-09 202919" src="https://github.com/user-attachments/assets/0fdfb794-09ed-46d6-8e83-cfe6b58a1800" />
+
+sau khi nhập xong thì máy sẽ cho ta 1 đường link dẫn đến cloudflare để xác minh. 
+
+tiếp theo đến phần tạo tunnel: ```cloudflared tunnel create pawnshop```
+
+Run tunnel: ```cloudflared tunnel run pawnshop```
+
+kết quả:
+<img width="1875" height="665" alt="Screenshot 2026-05-09 204547" src="https://github.com/user-attachments/assets/209032c9-38a5-4196-b227-ad4fbb7c6482" />
+<img width="1012" height="570" alt="Screenshot 2026-05-09 204228" src="https://github.com/user-attachments/assets/dccef9b0-73d7-4c28-bfa3-56d90027a963" />
+
+đã hoàn thành bài tập.
